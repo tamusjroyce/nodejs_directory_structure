@@ -39,15 +39,19 @@
     "./bin/",
     "./bin/cli.js",
     [
-        "./license.txt",
-        "wget https://api.github.com/licenses/mit -O license.txt",
-        "curl -o license.txt https://api.github.com/licenses/mit",
-        "node --eval \"const https = require('https'); fs = require('fs'); https.get('https://api.github.com/licenses/mit', {json:true}, function(error,response,body) {if (error) {return console.log(error);} fs.writeFileSync('license.txt', response.body.toString()); });\""
+      "./license.txt",
+      "wget https://api.github.com/licenses/mit -O license.txt",
+      "curl -o license.txt https://api.github.com/licenses/mit",
+      "node --eval \"const https = require('https'); fs = require('fs'); https.get('https://api.github.com/licenses/mit', {json:true}, function(error,response,body) {if (error) {return console.log(error);} fs.writeFileSync('license.txt', response.body.toString()); });\""
     ],
     [
-        "./.gitignore",
-        "echo package.lock >> ./.gitignore",
-        "echo ./node_modules/ >> ./.gitignore"
+      "./.gitignore",
+      "echo package.lock >> ./.gitignore",
+      "echo ./node_modules/ >> ./.gitignore"
     ]
-  ]
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tamusjroyce/nodejs_folder_structure.git"
+  }
 }
