@@ -1,6 +1,6 @@
 {
   "name": "folder_structure",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Small utility to build out your file structure.\n\nSo when looking at package.json, you get a general idea of your project.\nIncluding how directories, blank files, downloads, and scripts are to be used.",
   "main": "cli.js",
   "scripts": {
@@ -26,8 +26,8 @@
   },
   "bin": {
     "folder-structure": "./bin/cli.js",
-    "build-folderstruct": "./bin/cli-build_directory_structure.js",
-    "init-folderstruct": "./bin/cli-init_directory_structure.js"
+    "build-folderstruct": "./bin/cli-build_folder_structure.js",
+    "init-folderstruct": "./bin/cli-init_folder_structure.js"
   },
   "structure": [
     "./test/",
