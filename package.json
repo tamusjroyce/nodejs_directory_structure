@@ -1,0 +1,53 @@
+{
+  "name": "directory_structure",
+  "version": "0.1.0",
+  "description": "Small utility to build out your file structure.\n\nSo when looking at package.json, you get a general idea of your project.\nIncluding how directories, blank files, downloads, and scripts are to be used.",
+  "main": "cli.js",
+  "scripts": {
+    "build": "node ./bin/cli-build_directory_structure.js",
+    "link": "npm link",
+    "test": "./node_modules/.bin/mocha --reporter spec",
+    "patch-release": "npm version patch && npm publish && git add . && git commit -m \"auto-commit\" && git push --follow-tags"
+  },
+  "keywords": [
+    "file-structure",
+    "filestructure",
+    "dir-structure",
+    "directory-structure",
+    "directory",
+    "dir",
+    "structure"
+  ],
+  "author": "TamusJRoyce",
+  "license": "SEE LICENSE IN license.txt",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^5.2.0"
+  },
+  "bin": {
+    "directory-structure": "./cli.js",
+    "build-dirstruct": "./bin/cli-build_directory_structure.js",
+    "init-dirstruct": "./bin/cli-init_directory_structure.js"
+  },
+  "structure": [
+    {
+      "chain": [
+        "./README.md",
+        "node --eval \"const package = require('./package.json'); console.log(package.description);\" >> ./README.md"
+      ]
+    },
+    "./bin/",
+    "./bin/cli.js",
+    [
+        "./license.txt",
+        "wget https://api.github.com/licenses/mit -O license.txt",
+        "curl -o license.txt https://api.github.com/licenses/mit",
+        "node --eval \"const https = require('https'); fs = require('fs'); https.get('https://api.github.com/licenses/mit', {json:true}, function(error,response,body) {if (error) {return console.log(error);} fs.writeFileSync('license.txt', response.body.toString()); });\""
+    ],
+    [
+        "./.gitignore",
+        "echo package.lock >> ./.gitignore",
+        "echo ./node_modules/ >> ./.gitignore"
+    ]
+  ]
+}
