@@ -6,7 +6,8 @@ Including how directories, blank files, downloads, and scripts are to be used.
 > npm install -g folder_structure
 
 Note: This currently only works when installed globally. Work in progress!!!
-      The only command that works is `build-folderstruct`.
+
+The only command that works is `build-folderstruct`.
       
       This name may be changed in the future. This is my first npm package. :)
 
