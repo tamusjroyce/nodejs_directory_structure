@@ -2,9 +2,9 @@
 const child = require("child_process");
 
 if (process.argv.indexOf("dir") != -1 || process.argv.indexOf("build") != -1) {
-    child.exec("node ./cli-build_directory_structure.js \"" + process.argv.join("\"") + "\"");
+    child.exec("node ./build_folder_structure.js \"" + process.argv.join("\"") + "\"");
     return;
 }
 
 
-child.exec("node ./cli-build_directory_structure.js");
+child.exec("node ./build_folder_structure.js");

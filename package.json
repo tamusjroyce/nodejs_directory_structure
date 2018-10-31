@@ -25,9 +25,10 @@
     "mocha": "^5.2.0"
   },
   "bin": {
-    "folder-structure": "./bin/cli.js",
-    "build-folderstruct": "./bin/cli-build_folder_structure.js",
-    "init-folderstruct": "./bin/cli-init_folder_structure.js"
+    "build-folder-structure": "./bin/build-folder-structure.js",
+    "build-fs": "./bin/build-fs.js",
+    "init-folder-structure": "./bin/cli-build_folder_structure.js",
+    "init-fs": "./bin/cli-init_folder_structure.js"
   },
   "structure": [
     "./test/",
