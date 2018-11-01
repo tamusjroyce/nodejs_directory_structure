@@ -4,7 +4,8 @@
   "description": "Small utility to build out your file structure.\n\nSo when looking at package.json, you get a general idea of your project.\nIncluding how directories, blank files, downloads, and scripts are to be used.",
   "main": "cli.js",
   "scripts": {
-    "build": "node ./bin/cli-build_folder_structure.js",
+    "build": "node ./bin/build-folder-structure.js",
+    "start": "node ./bin/init-folder-structure.js",
     "link": "npm link",
     "test": "./node_modules/.bin/mocha --reporter spec",
     "patch-release": "npm version patch && npm publish && git add . && git commit -m \"auto-commit\" && git push --follow-tags"
@@ -19,16 +20,16 @@
     "structure"
   ],
   "author": "TamusJRoyce",
-  "license": "SEE LICENSE IN license.txt",
+  "license": "MIT",
   "devDependencies": {
     "chai": "^4.2.0",
     "mocha": "^5.2.0"
   },
   "bin": {
     "build-folder-structure": "./bin/build-folder-structure.js",
-    "build-fs": "./bin/build-fs.js",
-    "init-folder-structure": "./bin/cli-build_folder_structure.js",
-    "init-fs": "./bin/cli-init_folder_structure.js"
+    "build-fs": "./bin/build-folder-structure.js",
+    "init-folder-structure": "./bin/init-folder-structure.js",
+    "init-fs": "./bin/init-folder-structure.js"
   },
   "structure": [
     "./test/",
