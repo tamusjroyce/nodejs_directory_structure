@@ -1,12 +1,11 @@
 {
   "name": "folder_structure",
-  "version": "0.1.2",
-  "description": "Small utility to build out your file structure.\n\nSo when looking at package.json, you get a general idea of your project.\nIncluding how directories, blank files, downloads, and scripts are to be used.",
+  "version": "0.1.5",
+  "description": "Small utility to build out your file structure.\n\nSo when looking at package.json, you get a general idea of your project.\nIncluding how directories, blank files, downloads, and scripts are to be used.\n\nIt can also sync node_modules to a location you desire using npm install [module].",
   "main": "cli.js",
   "scripts": {
-    "build": "node ./bin/build-folder-structure.js",
-    "start": "node ./bin/init-folder-structure.js",
-    "link": "npm link",
+    "build": "npx build-folder-structure",
+    "start": "npx init-folder-structure",
     "test": "./node_modules/.bin/mocha --reporter spec",
     "patch-release": "npm version patch && npm publish && git add . && git commit -m \"auto-commit\" && git push --follow-tags"
   },
@@ -17,7 +16,10 @@
     "directory-structure",
     "folder-structure",
     "folder structure",
-    "structure"
+    "folder-sync",
+    "directory-sync",
+    "folder sync",
+    "directory sync"
   ],
   "author": "TamusJRoyce",
   "license": "MIT",
@@ -62,5 +64,8 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/tamusjroyce/nodejs_folder_structure.git"
+  },
+  "dependencies": {
+    "jsonschema": "^1.2.4"
   }
 }
