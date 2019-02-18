@@ -33,7 +33,7 @@
     "init-folder-structure": "./bin/init-folder-structure.js",
     "init-fs": "./bin/init-folder-structure.js"
   },
-  "structure": [
+  "folderLayout": [
     "./test/",
     "./test/tests.js",
     "./bin/",
