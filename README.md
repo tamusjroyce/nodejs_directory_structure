@@ -1,7 +1,9 @@
 Small utility to build out your file structure.
 
 So when looking at package.json, you get a general idea of your project.
-Including how directories, blank files, downloads, and scripts are to be used.
+Including building out directories, blank files, downloading files, syncing npm modules to local directories (feature in progress implemented), and running javascript scripts (OS-agnostic) and commands.
+
+(Note: npm is behind github. Refactoring code and stabilizing. Probably time to switch to develop. Was in a rush and forgot.)
 
 > npm install -g folder_structure
 
@@ -11,28 +13,27 @@ Alpha example:
 
 ```
 {
-  "name": "voice_recognition",
+  "name": "folder_structure",
   "version": "0.1.0",
-  "description": "Polyfil/wrapper client-side module for voice recognition. Supporting annyang! browser specific voice recognition (google voice online, possibly nuance offline, and maybe others a user m$
+  "description": "Server-side module for folder structure building.",
   "main": "app.js",
   "scripts": {
     "bundle": "./node_modules/.bin/browserify index.js > bundle.js",
     "test": "./node_modules/.bin/mocha --reporter spec"
   },
   "keywords": [
-    "voice",
-    "recognition",
-    "input",
-    "device"
+    "folder",
+    "folder-layout",
+    "sync-directory"
   ],
   "author": "TamusJRoyce",
   "license": "SEE LICENSE IN license.txt",
   "devDependencies": {
-    "browserify": "^16.2.3",
     "chai": "^4.2.0",
     "mocha": "^5.2.0"
   },
-  "structure": [
+  "folderLayout_note": "Your paths can be windows or posix based. They will be automatically detected converted to relative paths for processing.",
+  "folderLayout": [
     "./README.md",
     "./server/app/",
     "./server/scripts/setup/",
@@ -50,7 +51,7 @@ Alpha example:
 }
 ```
 
-Notice above:  "structure" shows a desired file structure.
+Notice above:  "folderLayout" shows a desired file structure.
 
 Here is a more advanced one. This one initializes blank files and executes scripts to build out file content (only if the file did not exist before). This comes from package.json in this repository!
 
@@ -62,7 +63,8 @@ Here is a more advanced one. This one initializes blank files and executes scrip
     "build-folderstruct": "./bin/cli-build_directory_structure.js",
     "init-folderstruct": "./bin/cli-init_directory_structure.js"
   },
-  "structure": [
+  "folderLayout_note": "Your paths can be windows or posix based. They will be automatically detected converted to relative paths for processing.",
+  "folderLayout": [
     "./test/",
     "./test/tests.js",
     "./bin/",
@@ -97,11 +99,12 @@ Here is a more advanced one. This one initializes blank files and executes scrip
 }
 ```
 
-I am not sure if this is best practice. But each to their own. I desire something easily understandable and all in one place.
+Deprecated: "structure"
+"structure" will still be processed. But for clarity, it is advised to switch to folderLayout.
 
-This tool is not meant convert package.json into a Makefile-like format. Please use pre-build and post-build hooks if you need that functionality.
+This tool is not meant convert package.json into a Makefile-like format. Its focus is purely project initialization. Please use pre-build and post-build hooks if you need to perform tasks unrelated to filesystem setup.
 
-This is only meant to document your folder structure. And at the same time, allow it to be built out.
+I find it useful to describe your desired folder structure in package.json. And at the same time, allow it to be built out. I hope you do too!
 
 Hopefully Helpful!
 -TamusJRoyce
