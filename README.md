@@ -11,6 +11,15 @@ Including building out directories, blank files, downloading files, syncing npm 
 
 The only command that works right now is `build-fs`. Fortunately, it is the most useful. It builds your directory out and runs each script.
 
+Just add it to your setup script within package.json
+
+```
+"scripts": [
+  "setup": "npx build-fs",
+  "run": "node app.js"
+]
+```
+
 Alpha example:
 
 ```
@@ -20,8 +29,9 @@ Alpha example:
   "description": "Server-side module for folder structure building.",
   "main": "app.js",
   "scripts": {
+    "setup":  "npx build-fs",
     "bundle": "./node_modules/.bin/browserify index.js > bundle.js",
-    "test": "./node_modules/.bin/mocha --reporter spec"
+    "test":   "./node_modules/.bin/mocha --reporter spec"
   },
   "keywords": [
     "folder",
