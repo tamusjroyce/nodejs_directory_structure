@@ -54,7 +54,7 @@
       "echo ./node_modules/ >> ./.gitignore"
     ],
     {
-      "chain": [
+      "group": [
         "./README.md",
         "node --eval \"const package = require('./package.json'); console.log(package.description);\" >> ./README.md"
       ]

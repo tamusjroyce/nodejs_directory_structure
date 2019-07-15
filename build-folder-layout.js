@@ -1,7 +1,23 @@
 const fs = require('fs');
 const path = require('path');
-const minimatch = require('minimatch');
 const child = require("child_process");
+
+let minimatch;
+try {
+  minimatch = require('minimatch');
+} catch (ex) {
+  if (typeof(minimatch) === 'undefined') {
+    try {
+      child.execSync("npm install -g minimatch");
+      minimatch = require('minimatch');  
+    } catch(ex1) {
+      try {
+        child.execSync("npm install --save-dev minimatch");
+        minimatch = require('minimatch');  
+      } catch(ex2) { }
+    }
+  }
+}
 
 const globals = {};
 
@@ -122,45 +138,43 @@ globals.success = function() {
   return true;
 }
 
-globals.runCommand = function(itemCommand) {
+globals.runCommand = function(itemCommand, ignoreFailure = false) {
   try {
       child.execSync(itemCommand);
       return true;
   } catch(ex) {
   }
-  return false;
+  return ignoreFailure;
 }
 
 // Path should always end with /. or a /filename.extension.
 //   /path/ refers to all files within a path. It is not a path.
 //   /path refers only to a file. This file could also be a directory.
+//
+// Returns true to continue processing only if a new path is created.
 globals.mkdir = function(dirPath) {
   try {
     fs.mkdirSync(path.relative("./.", path.normalize(path.resolve(path.dirname(dirPath)))));
   } catch(e) {
-    if (e.code !== "EEXIST") {
-      return false;
-    }
+    return false;
+    //if (e.code !== "EEXIST") {
+    //  return false;
+    //}
   }
   return true;
 }
 
+// Only returns true to continue processing if a new file is written.
 globals.touch = function(path) {
   globals.mkdir(path);
+  const now = Date.now();
   try {
-    fs.closeSync(fs.openSync(path, 'w')); // Update last modified date
+    fs.utimesSync(path, now, now); // Update last modified date
   } catch (ex) {
-    if (ex.message === "destination is not defined") {
-      try {
-        fs.writeFileSync(path, "", "utf8");
-      } catch (ex2) {
-        return false;
-      }
-    } else {
-      return false;
-    }
+    fs.closeSync(fs.openSync(path, 'w'));
+    return true; // New blank file was created...return success (and possibly continue processing)
   }
-  return true;  
+  return false;
 }
 
 globals.copy = function(source, destination, copied = []) {
@@ -173,14 +187,14 @@ globals.copy = function(source, destination, copied = []) {
         globals.copyFiles(src, dest);
       }
     }
-    return copied;
+    return (Array.isArray(copied) && copied.length > 0 ? copied : undefined);
   }
   globals.mkdir(destination);
   if (source === destination) {
     try {
       fs.closeSync(fs.openSync(destination, 'w')); // Update last modified date
     } catch (ex) {}
-    return copied;
+    return (Array.isArray(copied) && copied.length > 0 ? copied : undefined);
   }
   try {
     fs.copyFile(source, destionation);
@@ -188,32 +202,43 @@ globals.copy = function(source, destination, copied = []) {
   } catch(ex) {
     console.error("Unable to copy file ", source, " -> ", destionation, " ", err)
   }
-  return copied;
+  return (Array.isArray(copied) && copied.length > 0 ? copied : undefined);
 }
 
 globals.remove = function(path) {
   path = globals.getFiles(path);
   if (typeof(path) !== 'string') {
+    let removed = false;
     for (let pathKey in path) {
       const pathItem = path[pathKey];
-      globals.remove(pathItem);
+      removed = globals.remove(pathItem) || removed;
     }
-    return;
+    return removed;
   }  
   if (typeof(file) === 'string') {
     try {
       fs.unlinkSync(file);
+      return true;
     } catch (ex) {
       console.error("Unable to delete file ", file, " ", ex);
     }
   }
+  return false;
 }
 
 globals.move = function(source, destination) {
+  let moved = false;
   for (let copiedFile of globals.copy(source, destination)) {
-    globals.remove(copiedFile);
+    if (globals.remove(copiedFile)) {
+      movied = true;
+    }
   }
+  return moved;
 }
+
+//************************************************************************************** */
+//* Reflection - Dynamic variable substitution and function execution                    */
+//************************************************************************************** */
 
 function getVariable(name, scope, globalScope) {
   if (typeof(scope) !== 'undefined' && typeof(scope[name]) !== 'undefined') {
@@ -285,6 +310,18 @@ const defaultPatternAliases = [
   { "logerror": func(globals.success) }
 ];
 
+//************************************************************************************** */
+//* Process Folder Layout                                                                */
+//************************************************************************************** */
+
+function getCommand(layoutCommand) {
+  const commandId = layoutCommand.split(" ")[0];
+  if (defaultCommands.some(function(item) { return typeof(item[commandId]) !== 'undefined' } )) {
+    return commandId;
+  }
+  return;
+}
+
 function getAlias(layoutCommand) {
   let result = false;
   this.value = layoutCommand;
@@ -302,31 +339,59 @@ function getAlias(layoutCommand) {
   return;
 }
 
-function processFolderLayout(layoutItem, currentCommand = undefined) {
-  if (typeof(layoutItem) === 'string') {
-      if (typeof(currentCommand) === 'undefined') {
-        const foundAlias = getAlias(layoutItem);
-        const foundCommand = defaultCommands.find(function(item) {
-          return typeof(item[foundAlias]) !== 'undefined';
-        })[foundAlias];
-        return processFolderLayout(layoutItem, foundCommand);
+function getCommandFunction(commandName) {
+  return defaultCommands.find(function(item) {
+    return typeof(item[commandName]) !== 'undefined';
+  })[commandName];
+}
+
+function processItem(layoutItem) {
+  const foundCommand = getCommand(layoutItem);
+  const foundAlias = (typeof(foundCommand) === 'undefined' ? getAlias(layoutItem) : undefined);
+  const command = getCommandFunction(foundCommand || foundAlias);
+  this.value = layoutItem;
+  const processedResult = runFunction(command, this);
+  console.log("Process item:", layoutItem, (processedResult ? " was successful " : " has failed "), "for", typeof(foundAlias) === 'undefined' ? "Command: " + foundCommand : "Alias: " + foundAlias);
+  return processedResult;
+}
+
+try {
+  globals.asyncForeach = async function(fn, argsOfArgs = [[]], scope = this) {
+    const promises = [];
+    for (let args of argsOfArgs) {
+      if (!array.IsArray(args)) {
+        args = [args];
       }
-      this.value = layoutItem;
-      return runFunction(currentCommand, this);
+      promises.push(async function() { fn.apply(scope, args); }());
+    }
+    return await Promise.all(promises);
+  }
+} catch(ex) {}
+
+// Similar to startProcessingFolderLayout. But if anything fails in a group, break out early.
+function processFolderLayout(layoutItem) {
+  if (typeof(layoutItem) === 'string') {
+    return processItem(layoutItem);
   } else if (Array.isArray(layoutItem)) {
     for (let item of layoutItem) {
-      if (!processFolderLayout(item, currentCommand)) {
+      if (!processItem(item)) {
         return false;
       }
     }
     return true;
   } else if (typeof(layoutItem) === 'object') {
     for (let commandKey in layoutItem) {
-      if (commandKey === "folderLayout" || commandKey === "folderStructure" || commandKey === "layout") {
-        if (!processFolderLayout(layoutItem[commandKey])) {
-          return false;
+      if (commandKey === "folderLayout" || commandKey === "folderStructure" || commandKey === "layout" || commandKey === "all") {
+        processFolderLayout(layoutItem[commandKey]);
+      } else if (commandKey === "parallel") {
+        try {
+          globals.asyncForeach(processItem, layoutItem[commandKey]);
+        } catch(ex) {
+          processFolderLayout(layoutItem[commandKey]);
         }
-      } else if (!processFolderLayout(layoutItem[commandKey], defaultCommands[commandKey])) {
+      } else if (commandKey === "group" || commandKey === "chain") {
+        return processFolderLayout(layoutItem[commandKey]);
+      } else if (!processFolderLayout(commandKey + " " + layoutItem[commandKey])) {
         return false;
       }
     }
@@ -336,7 +401,35 @@ function processFolderLayout(layoutItem, currentCommand = undefined) {
   return false;
 }
 
+// For the first layer, don't fail out. Continue processing.
+function startProcessingFolderLayout(layoutItem) {
+  let result = false;
+  if (typeof(layoutItem) === 'string') {
+    result = processFolderLayout(layoutItem);
+  } else if (Array.isArray(layoutItem)) {
+    for (let item of layoutItem) {
+      result = processFolderLayout(item) || result;
+    }
+  } else if (typeof(layoutItem) === 'object') {
+    for (let commandKey in layoutItem) {
+      if (commandKey === "folderLayout" || commandKey === "folderStructure" || commandKey === "layout" || commandKey === "all") {
+        result = processFolderLayout(layoutItem[commandKey]) || result;
+      } else if (commandKey === "parallel") {
+        try {
+          globals.asyncForeach(processFolderLayout, layoutItem[commandKey]);
+        } catch(ex) {
+          processFolderLayout(layoutItem[commandKey]);
+        }
+        result = true;
+      } else {
+        result = processFolderLayout(commandKey + " " + layoutItem[commandKey]) || result;
+      }
+    }
+  }
+  return result;
+}
+
 const packagejson = JSON.parse(fs.readFileSync(path.join(process.cwd(), "package.json")));
 const folderLayout = packagejson.folderLayout || packagejson.folderStructure || packagejson.layout;
 
-processFolderLayout(folderLayout);
+startProcessingFolderLayout(folderLayout);
