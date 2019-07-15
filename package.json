@@ -24,7 +24,8 @@
   "license": "MIT",
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "@atom/watcher": "^1.3.1"
   },
   "bin": {
     "build-fs": "./bin/build-fs.js",
@@ -62,8 +63,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/tamusjroyce/nodejs_folder_structure.git"
-  },
-  "dependencies": {
-    "@atom/watcher": "^1.3.1"
   }
 }
