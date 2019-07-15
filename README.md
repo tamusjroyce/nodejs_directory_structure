@@ -1,5 +1,7 @@
 Small utility to build out your file structure.
 
+July 15, 2019 - Recently refactored and greatly simplified.
+
 So when looking at package.json, you get a general idea of your project.
 Including building out directories, blank files, downloading files, syncing npm modules to local directories (feature in progress implemented), and running javascript scripts (OS-agnostic) and commands.
 
