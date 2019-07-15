@@ -1,11 +1,10 @@
 {
-  "name": "folder_structure",
-  "version": "0.1.6",
+  "name": "folder_layout",
+  "version": "0.1.7",
   "description": "Small utility to build out your file structure.\n\nSo when looking at package.json, you get a general idea of your project.\nIncluding how directories, blank files, downloads, and scripts are to be used.\n\nIt can also sync node_modules to a location you desire using npm install [module].",
   "main": "cli.js",
   "scripts": {
-    "build": "npx build-folder-structure",
-    "start": "npx init-folder-structure",
+    "build": "npx build-folder-layout",
     "test": "./node_modules/.bin/mocha --reporter spec",
     "patch-release": "npm version patch && npm publish && git add . && git commit -m \"auto-commit\" && git push --follow-tags"
   },
@@ -28,20 +27,19 @@
     "mocha": "^5.2.0"
   },
   "bin": {
-    "build-folder-structure": "./bin/build-folder-structure.js",
-    "build-fs": "./bin/build-folder-structure.js",
-    "init-folder-structure": "./bin/init-folder-structure.js",
-    "init-fs": "./bin/init-folder-structure.js"
+    "build-fs": "./bin/build-fs.js",
+    "build-folder-layout": "./build-folder-structure.js",
+    "build-folder-structure": "./build-folder-structure.js"
   },
   "folderLayout": [
-    "./test/",
-    "./test/tests.js",
-    "./bin/",
+    "./example_test/.",
+    "./example_test/tests.js",
+    "./bin/.",
     "./bin/cli.js",
     [
       "./test/mocha.opts",
-      "echo server-tests >> ./test/mocha.opts",
-      "echo --recursive >> ./test/mocha.opts"
+      "echo server-tests >> ./example_test/mocha.opts",
+      "echo --recursive >> ./example_test/mocha.opts"
     ],
     [
       "./license.txt",
@@ -66,6 +64,6 @@
     "url": "https://github.com/tamusjroyce/nodejs_folder_structure.git"
   },
   "dependencies": {
-    "jsonschema": "^1.2.4"
+    "@atom/watcher": "^1.3.1"
   }
 }
