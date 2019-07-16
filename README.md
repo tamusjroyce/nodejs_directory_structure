@@ -109,7 +109,9 @@ Here is a more advanced one. This one initializes blank files and executes scrip
     "url": "https://github.com/tamusjroyce/nodejs_folder_structure.git"
   }
 }
+
 ```
+## Global Install
 
 If you add the below to your package.json script section
 ```
@@ -123,8 +125,8 @@ and
   ],
 ```
 then
-> npm install -g folder_structure
-The above will also work.
+> npm run preinstall
+The above command will install folder_structure and a potato (because who doesn't want to install a potato? be sure to fork it) globally.
 
 ## RoadMap
 * Setup a subfolder with a variety of folderLayout templates and examples similar to existing folder layout standards
