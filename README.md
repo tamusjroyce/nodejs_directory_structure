@@ -9,6 +9,10 @@ Including building out directories, blank files, downloading files, syncing npm 
 
 > npm install -g folder_structure
 
+or
+
+> npm install --save-dev folder_structure
+
 The only command that works right now is `build-fs`. Fortunately, it is the most useful. It builds your directory out and runs each script.
 
 Just add it to your setup script within package.json
