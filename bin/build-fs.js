@@ -2,19 +2,18 @@
 const path = require('path');
 const child = require("child_process");
 
-let __dirname = __dirname;
 if (typeof(__dirname) === 'undefined') {
     try {
-        import { fileURLToPath } from 'url';
-        __dirname = path.dirname(fileURLToPath(import.meta.url));
+        const url = require('url');
+        const fileURLToPath = url.fileURLToPath;
+        this.__dirname = path.dirname(fileURLToPath("./"));
     } catch(ex) {
     }
 }
 
-const buildFolderLayoutPath = path.normalize(path.join(__dirname, "../build_folder_layout.js"));
+const buildFolderLayoutPath = path.normalize(path.join(__dirname, "../build-folder-layout.js"));
 if (process.argv.indexOf("dir") != -1 || process.argv.indexOf("build") != -1) {
-    child.exec("node " + buildFolderLayoutPath + " \"" + process.argv.join("\"") + "\"");
+    console.log(child.execSync("node " + buildFolderLayoutPath + " \"" + process.argv.join("\"") + "\"").toString());
     return;
 }
-
-child.exec("node " + buildFolderLayoutPath);
+console.log(child.execSync("node " + buildFolderLayoutPath).toString());

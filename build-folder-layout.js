@@ -85,10 +85,10 @@ globals.match = function(pattern, value) {
 function getExecPath(exec) {
   let result;
   try {
-    result = child.execSync("which " + exec).toString().trim();
+    result = child.execSync("which " + exec, {stdio: [process.stdin, process.stdout]}).toString().trim();
   } catch(ex) {
     try {
-      result = child.execSync("where " + exec).toString().trim();
+      result = child.execSync("where " + exec, {stdio: [process.stdin, process.stdout]}).toString().trim();
     } catch(ex2) {
       return;
     }
@@ -351,7 +351,7 @@ function processItem(layoutItem) {
   const command = getCommandFunction(foundCommand || foundAlias);
   this.value = layoutItem;
   const processedResult = runFunction(command, this);
-  console.log("Process item:", layoutItem, (processedResult ? " was successful " : " has failed "), "for", typeof(foundAlias) === 'undefined' ? "Command: " + foundCommand : "Alias: " + foundAlias);
+  console.log("Process item:", layoutItem, (processedResult ? "was successful" : "has failed"), "for", typeof(foundAlias) === 'undefined' ? "command: " + foundCommand : "found alias: " + foundAlias);
   return processedResult;
 }
 
