@@ -113,9 +113,13 @@ Here is a more advanced one. This one initializes blank files and executes scrip
 
 ## RoadMap
 * Setup a subfolder with a variety of folderLayout templates and examples similar to existing folder layout standards
+* Link node_module subfolders into project path (thus removing the need for bower or requirement of webpack)
+** Support folder sync fallback if filesystem linking is not possible - using Atom's cross-platform FileSystem Watcher.
 
+## Summery
 
-I find it useful to describe your desired folder structure in package.json. And at the same time, allow it to be built out. I hope you do too!
+It nice to document your desired folder layout. But it is better when your package manager (even if being extended) handles it for you.
 
 Hopefully Helpful!
+
 -TamusJRoyce
