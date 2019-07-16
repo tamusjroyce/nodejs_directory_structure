@@ -29,8 +29,8 @@
   },
   "bin": {
     "build-fs": "./bin/build-fs.js",
-    "build-folder-layout": "./build-folder-structure.js",
-    "build-folder-structure": "./build-folder-structure.js"
+    "build-folder-layout": "./bin/build-fs.js",
+    "build-folder-structure": "./bin/build-fs.js"
   },
   "folderLayout": [
     "./example_test/.",
