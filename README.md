@@ -1,13 +1,24 @@
-Small utility to build out your file structure.
+# Small utility to build out your file structure
+
+**July 15, 2019 - Recently refactored and greatly simplified.**
 
 So when looking at package.json, you get a general idea of your project.
 Including building out directories, blank files, downloading files, syncing npm modules to local directories (feature in progress implemented), and running javascript scripts (OS-agnostic) and commands.
 
 (Note: npm is behind github. Refactoring code and stabilizing. Probably time to switch to develop. Was in a rush and forgot.)
 
-> npm install -g folder_structure
+> npm install --save-dev folder_structure
 
 The only command that works right now is `build-fs`. Fortunately, it is the most useful. It builds your directory out and runs each script.
+
+Just add it to your setup script within package.json
+
+```
+"scripts": [
+  "setup": "npx build-fs",
+  "run": "node app.js"
+]
+```
 
 Alpha example:
 
@@ -18,8 +29,9 @@ Alpha example:
   "description": "Server-side module for folder structure building.",
   "main": "app.js",
   "scripts": {
+    "setup":  "npx build-fs",
     "bundle": "./node_modules/.bin/browserify index.js > bundle.js",
-    "test": "./node_modules/.bin/mocha --reporter spec"
+    "test":   "./node_modules/.bin/mocha --reporter spec"
   },
   "keywords": [
     "folder",
@@ -97,9 +109,36 @@ Here is a more advanced one. This one initializes blank files and executes scrip
     "url": "https://github.com/tamusjroyce/nodejs_folder_structure.git"
   }
 }
-```
 
-I find it useful to describe your desired folder structure in package.json. And at the same time, allow it to be built out. I hope you do too!
+```
+## Global Install
+
+If you add the below to your package.json script section
+```
+"preinstall": "node -e \"const {execSync} = require('child_process'); JSON.parse(fs.readFileSync('package.json')).globalDependencies.foreach(globaldep => execSync('npm i -g ' + globaldep));\"",
+```
+and
+```
+  "globalDependencies": [
+    "folder_structure",
+    "potato"
+  ],
+```
+then
+> npm run preinstall
+
+The above command will install folder_structure and a potato (because who doesn't want to install a potato? be sure to fork it) globally.
+
+## RoadMap
+* Setup a subfolder with a variety of folderLayout templates and examples similar to existing folder layout standards
+* Link node_module subfolders into project path (thus removing the need for bower or requirement of webpack)
+** Support folder sync fallback if filesystem linking is not possible - using Atom's cross-platform FileSystem Watcher.
+* Support globalDependencies (de-clutter scripts...though inline scripts like above can be quite helpful)
+
+## Summery
+
+It nice to document your desired folder layout. But it is better when your package manager (even if being extended) handles it for you.
 
 Hopefully Helpful!
+
 -TamusJRoyce
