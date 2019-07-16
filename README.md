@@ -156,21 +156,17 @@ Note: Replace ```[ ..., ... ]```
       with    ```{ "action": [ ..., ... ] }```
       for extra features. Action specified below.
 
+Runs through all items, similar to the root node
 * { "all": [ ..., ... ] }
 
-** Runs through all items, similar to the root node
-
+Runs through all items, but tries to do so in parallel, ignoring the result and continue processing
 * { "parallel": [ ..., ... ] }
 
-** Runs through all items, but tries to do so in parallel, ignoring the result and continue processing
-
+Runs the same command across an array of items
 * { "a command specified below": [ ..., ... ] }
 
-** Runs the same command across an array of items
-
-* { "a command specified below": ... }
-
 ** Runs a command for a specific action
+* { "a command specified below": ... }
 
 Where Action can be:
 * mkdir     - Creates a directory and subdirectories (auto-detected)
