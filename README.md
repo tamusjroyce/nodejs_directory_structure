@@ -47,23 +47,28 @@ Alpha example:
   "folderLayout_note": "Your paths can be windows or posix based. They will be automatically detected converted to relative paths for processing.",
   "folderLayout": [
     "./README.md",
-    "./server/app/",
-    "./server/scripts/setup/",
-    "./server/scripts/prerun/",
-    "./server/scripts/postrun/",
-    "./server/scripts/database/",
-    "./client/site/",
-    "./client/site/assets/",
-    "./client/site/scripts/",
-    "./client/site/styles/",
-    "./src/",
-    "./src/test/",
-    "./src/"
+    "./server/app/.",
+    "./server/scripts/setup/.",
+    "./server/scripts/prerun/.",
+    "./server/scripts/postrun/.",
+    "./server/scripts/database/.",
+    "./client/site/.",
+    "./client/site/assets/.",
+    "./client/site/scripts/.",
+    "./client/site/styles/.",
+    "./src/.",
+    "./src/test/.",
+    "./src/."
   ]
 }
 ```
 
 Notice above:  "folderLayout" shows a desired file structure.
+
+> Note: Each folder path ends in a period. If a path ends in a slash, it actually represents all files within that path.
+>       Per the Posix standard. **./server/app/ does not represent a directory!** ./server/app/. represents the directory.
+>
+>       https://en.wikipedia.org/wiki/Dirname#Misconceptions
 
 Here is a more advanced one. This one initializes blank files and executes scripts to build out file content (only if the file did not exist before). This comes from package.json in this repository!
 
