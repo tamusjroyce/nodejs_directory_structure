@@ -133,6 +133,7 @@ The above command will install folder_structure and a potato (because who doesn'
 * Setup a subfolder with a variety of folderLayout templates and examples similar to existing folder layout standards
 * Link node_module subfolders into project path (thus removing the need for bower or requirement of webpack)
 ** Support folder sync fallback if filesystem linking is not possible - using Atom's cross-platform FileSystem Watcher.
+* Support globalDependencies (de-clutter scripts...though inline scripts like above can be quite helpful)
 
 ## Summery
 
