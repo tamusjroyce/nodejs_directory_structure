@@ -160,7 +160,7 @@ The above command will install folder_structure and a potato (because who doesn'
 
 ## Summery
 
-It nice to document your desired folder layout. But it is better when your package manager (even if being extended) handles it for you.
+It nice to document your desired folder layout. But it is better when your package manager handles it for you.
 
 Hopefully Helpful!
 
