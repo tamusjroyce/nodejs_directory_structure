@@ -82,10 +82,9 @@ Here is a more advanced one. This one initializes blank files and executes scrip
   },
   "folderLayout_note": "Your paths can be windows or posix based. They will be automatically detected converted to relative paths for processing.",
   "folderLayout": [
-    "./test/",
+    "./test/.",
     "./test/tests.js",
-    "./bin/",
-    "./bin/cli.js",
+    "./bin/.",
     [
       "./test/mocha.opts",
       "echo server-tests >> ./test/mocha.opts",
@@ -100,7 +99,7 @@ Here is a more advanced one. This one initializes blank files and executes scrip
     [
       "./.gitignore",
       "echo package.lock >> ./.gitignore",
-      "echo ./node_modules/ >> ./.gitignore"
+      "echo node_modules/ >> ./.gitignore"
     ],
     {
       "chain": [
@@ -114,8 +113,10 @@ Here is a more advanced one. This one initializes blank files and executes scrip
     "url": "https://github.com/tamusjroyce/nodejs_folder_structure.git"
   }
 }
-
 ```
+
+The reason for the arrays, such as "./.gitignore" above, is that if .gitignore already exists, the command below it will not be ran. Only when .gitignore is initially created will package.lock and node_modules/ be added to the .gitignore.
+
 ## Global Install
 
 If you add the below to your package.json script section
