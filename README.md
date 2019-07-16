@@ -5,8 +5,6 @@
 So when looking at package.json, you get a general idea of your project.
 Including building out directories, blank files, downloading files, syncing npm modules to local directories (feature in progress implemented), and running javascript scripts (OS-agnostic) and commands.
 
-(Note: npm is behind github. Refactoring code and stabilizing. Probably time to switch to develop. Was in a rush and forgot.)
-
 > npm install --save-dev folder_layout
 
 The only command that works right now is `build-fs`. Fortunately, it is the most useful. It builds your directory out and runs each script.
@@ -117,6 +115,22 @@ Here is a more advanced one. This one initializes blank files and executes scrip
 
 The reason for the arrays, such as "./.gitignore" above, is that if .gitignore already exists, the command below it will not be ran. Only when .gitignore is initially created will package.lock and node_modules/ be added to the .gitignore.
 
+## Auto Discovery
+
+So you might ask, "How does the script know to create a directory, a blank file, or execute a command?" It does it by finding a pattern in the text. Unless you specify it manually, per the Advanced section below (which you are more than welcome to do).
+
+If the first word is an Action in the Advanced Commands below
+* It will run the javascript function associated with the Action with the parameter specified
+
+If it starts with a "./" and ends with a "/."
+* Then it will guarentee the necessary folders so that the path exists (or fail while trying)
+
+If it starts with a "./" and does end with a period, such as "./test/readme.txt"
+* Then it will guarentee the necessary folders and create a blank file (unless the file already exists)
+
+If it does not start with a period and does not match the rules above
+* Then it will be executed at the command prompt
+
 ## Global Install
 
 If you add the below to your package.json script section
@@ -141,6 +155,8 @@ The above command will install folder_structure and a potato (because who doesn'
 * Link node_module subfolders into project path (thus removing the need for bower or requirement of webpack)
 ** Support folder sync fallback if filesystem linking is not possible - using Atom's cross-platform FileSystem Watcher.
 * Support globalDependencies (de-clutter scripts...though inline scripts like above can be quite helpful)
+* Allow more than one argument or specify arguments for a specified Action
+* Find a way to inject the output of one action as the input of another Action
 
 ## Summery
 
@@ -166,7 +182,7 @@ Runs through all items, but tries to do so in parallel, ignoring the result and 
 Runs the same command across an array of items
 * { "a command specified below": [ "...", "..." ] }
 
-** Runs a command for a specific action
+Runs a command for a specific action
 * { "a command specified below": "..." }
 
 Where Action can be:
