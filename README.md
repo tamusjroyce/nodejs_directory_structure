@@ -157,15 +157,19 @@ Note: Replace ```[ ..., ... ]```
       for extra features. Action specified below.
 
 * { "all": [ ..., ... ] }
+
 ** Runs through all items, similar to the root node
 
 * { "parallel": [ ..., ... ] }
+
 ** Runs through all items, but tries to do so in parallel, ignoring the result and continue processing
 
 * { "a command specified below": [ ..., ... ] }
+
 ** Runs the same command across an array of items
 
 * { "a command specified below": ... }
+
 ** Runs a command for a specific action
 
 Where Action can be:
