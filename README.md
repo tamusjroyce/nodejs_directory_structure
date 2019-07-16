@@ -7,10 +7,6 @@ Including building out directories, blank files, downloading files, syncing npm 
 
 (Note: npm is behind github. Refactoring code and stabilizing. Probably time to switch to develop. Was in a rush and forgot.)
 
-> npm install -g folder_structure
-
-or
-
 > npm install --save-dev folder_structure
 
 The only command that works right now is `build-fs`. Fortunately, it is the most useful. It builds your directory out and runs each script.
@@ -114,6 +110,21 @@ Here is a more advanced one. This one initializes blank files and executes scrip
   }
 }
 ```
+
+If you add the below to your package.json script section
+```
+"preinstall": "node -e \"const {execSync} = require('child_process'); JSON.parse(fs.readFileSync('package.json')).globalDependencies.foreach(globaldep => execSync('npm i -g ' + globaldep));\"",
+```
+and
+```
+  "globalDependencies": [
+    "folder_structure",
+    "potato"
+  ],
+```
+then
+> npm install -g folder_structure
+The above will also work.
 
 ## RoadMap
 * Setup a subfolder with a variety of folderLayout templates and examples similar to existing folder layout standards
