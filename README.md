@@ -20,7 +20,7 @@ Just add it to your setup script within package.json
 ]
 ```
 
-Alpha example:
+Beta example:
 
 ```
 {
