@@ -7,7 +7,7 @@ Including building out directories, blank files, downloading files, syncing npm 
 
 (Note: npm is behind github. Refactoring code and stabilizing. Probably time to switch to develop. Was in a rush and forgot.)
 
-> npm install --save-dev folder_structure
+> npm install --save-dev folder_layout
 
 The only command that works right now is `build-fs`. Fortunately, it is the most useful. It builds your directory out and runs each script.
 
@@ -120,7 +120,7 @@ If you add the below to your package.json script section
 and
 ```
   "globalDependencies": [
-    "folder_structure",
+    "folder_layout",
     "potato"
   ],
 ```
