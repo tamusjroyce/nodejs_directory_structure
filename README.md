@@ -24,7 +24,7 @@ Alpha example:
 
 ```
 {
-  "name": "folder_structure",
+  "name": "folder_layout",
   "version": "0.1.0",
   "description": "Server-side module for folder structure building.",
   "main": "app.js",
