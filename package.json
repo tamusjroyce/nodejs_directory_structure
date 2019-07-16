@@ -1,6 +1,6 @@
 {
   "name": "folder_layout",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "Small utility to build out your file structure.\n\nSo when looking at package.json, you get a general idea of your project.\nIncluding how directories, blank files, downloads, and scripts are to be used.\n\nIt can also sync node_modules to a location you desire using npm install [module].",
   "main": "build-fs.js",
   "scripts": {
