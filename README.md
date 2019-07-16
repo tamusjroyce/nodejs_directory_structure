@@ -148,3 +148,29 @@ It nice to document your desired folder layout. But it is better when your packa
 Hopefully Helpful!
 
 -TamusJRoyce
+
+## Advanced - tl;dr
+
+### Supported Commands
+Note: Replace ```[ ..., ... ]```
+      with    ```{ "action": [ ..., ... ] }```
+      for extra features. Action specified below.
+
+* { "all": [ ..., ... ] }
+** Runs through all items, similar to the root node
+* { "parallel": [ ..., ... ] }
+** Runs through all items, but tries to do so in parallel, ignoring the result and continue processing
+* { "a command specified below": [ ..., ... ] }
+** Runs the same command across an array of items
+* { "a command specified below": ... }
+** Runs a command for a specific action
+
+Where Action can be:
+mkdir     - Creates a directory and subdirectories (auto-detected)
+touch     - Creates a file if not found, and any directories to get to the file (auto-detected)
+copy      - Copies a file or directory (not fully implemented yet)
+mv        - Moves a file (not fully implemented yet)
+rm        - Removes a file
+exec      - Runs a script (auto-detected)
+link      - Either symlinks a file or keeps a file in syncs to a different location (neither implemented yet)
+logerror  - Outputs to the console, useful for debugging
