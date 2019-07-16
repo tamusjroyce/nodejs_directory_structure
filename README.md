@@ -126,6 +126,7 @@ and
 ```
 then
 > npm run preinstall
+
 The above command will install folder_structure and a potato (because who doesn't want to install a potato? be sure to fork it) globally.
 
 ## RoadMap
