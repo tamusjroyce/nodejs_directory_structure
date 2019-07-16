@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npm update && npx build-fs",
     "test": "./node_modules/.bin/mocha --reporter spec",
-    "patch-release": "rm -rf ./node_modules && npm version patch && npm publish && git add . && git commit -m \"auto-commit\" && git push --follow-tags"
+    "patch-release": "cp ./build-folder-layout.js ./.bin/build-fs.js && rm -rf ./node_modules && npm version patch && npm publish && git add . && git commit -m \"auto-commit\" && git push --follow-tags"
   },
   "keywords": [
     "file-structure",
