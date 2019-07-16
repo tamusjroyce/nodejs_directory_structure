@@ -111,6 +111,10 @@ Here is a more advanced one. This one initializes blank files and executes scrip
 }
 ```
 
+## RoadMap
+* Setup a subfolder with a variety of folderLayout templates and examples similar to existing folder layout standards
+
+
 I find it useful to describe your desired folder structure in package.json. And at the same time, allow it to be built out. I hope you do too!
 
 Hopefully Helpful!
