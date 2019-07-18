@@ -24,12 +24,20 @@ try {
 const globals = {};
 
 function sutSplit(string, delimiters) {
-  delimiters = (Array.isArray(delimiters) ? delimiters : Array.from(arguments).split(1));
-  const split = string.split(delimiters.unshift());
-  for (const delimiter of delimiters) {
-    result.concat(string.split(delimiter));
+  delimiters = (Array.isArray(delimiters) ? delimiters : Array.from(arguments).slice(1)).reverse();
+  const splits = string.split(delimiters.pop());
+  for (let delimiter of delimiters) {
+    for (let index = splits.length - 1; index >= 0; index--) {
+      const split = splits[index].split(delimiter);
+      if (split.length > 1) {
+        splits[index] = split[0];
+        for (let splitIndex = 1; splitIndex < split.length; splitIndex++) {
+          splits.splice(index + splitIndex, 0, currentSplit);
+        }
+      }
+    }
   }
-  return split;
+  return splits;
 }
 
 // Return a list of files of the specified fileTypes in the provided dir, 
@@ -111,6 +119,11 @@ globals.isExec = function(value) {
     }
   }
   try {
+    if (fs.lstatSync(value).isDirectory()) {
+      return false
+    }
+  } catch(ex) {}
+  try {
     // Check if linux has execution rights
     fs.accessSync(value, fs.constants.X_OK);
     return true;
@@ -155,13 +168,27 @@ globals.runCommand = function(itemCommand, ignoreFailure = false) {
 //
 // Returns true to continue processing only if a new path is created.
 globals.mkdir = function(dirPath) {
+  const relativePath = path.relative("./.", path.normalize(path.resolve(path.dirname(dirPath))));
+  while (relativePath.endsWith(".")) {
+    relativePath = relativePath.substring(0, relativePath.length - 1);
+  }
+  if (relativePath === "") {
+    return true;
+  }
   try {
-    fs.mkdirSync(path.relative("./.", path.normalize(path.resolve(path.dirname(dirPath)))));
+    fs.mkdirSync(relativePath);
   } catch(e) {
-    return false;
-    //if (e.code !== "EEXIST") {
-    //  return false;
-    //}
+    const splitPath = sutSplit(relativePath, "/", "\\");
+    let currentPath = "";
+    for (let folderIndex = 0; folderIndex < splitPath.length; folderIndex++) {
+      const folder = splitPath[folderIndex];
+      currentPath = currentPath + folder + "/";
+      try {
+        fs.mkdirSync(currentPath);
+      } catch (ex) {
+        return false;
+      }
+    }
   }
   return true;
 }
